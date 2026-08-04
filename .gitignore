@@ -20,5 +20,13 @@ finetune/output/
 # Merged Models
 merged_models_cache/
 
-# Local Quick Studio voice library
-.quick-studio-data/
+# Quick Studio local data. Reusable clone features are intentionally synced;
+# rendered history, cache, and any other app data stay local.
+.quick-studio-data/*
+!.quick-studio-data/README.md
+!.quick-studio-data/cloned_voices/
+.quick-studio-data/cloned_voices/*
+!.quick-studio-data/cloned_voices/*.npz
+
+# Local launcher logs
+.quick-studio-start.*.log

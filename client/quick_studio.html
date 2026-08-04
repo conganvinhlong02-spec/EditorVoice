@@ -152,6 +152,37 @@
     .clone-status.error { color: #a23438; }
     .reference-audio { display: none; width: 100%; height: 34px; margin: 11px 0 0; filter: none; opacity: 1; }
     .reference-audio.ready { display: block; }
+    .clip-editor { display: none; margin-top: 11px; padding: 12px; border: 1px solid rgba(123,97,255,.2); border-radius: 12px; background: rgba(255,255,255,.58); }
+    .clip-editor.show { display: block; }
+    .clip-editor-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 9px; font-size: 11px; }
+    .clip-editor-head b { color: var(--ink); }
+    .clip-editor-head span { color: #6252c8; font-weight: 800; font-variant-numeric: tabular-nums; }
+    .clip-help { margin: -3px 0 9px; color: var(--muted); font-size: 10px; line-height: 1.45; }
+    .timeline-scroller { width: 100%; overflow-x: auto; overflow-y: hidden; padding: 0 0 7px; scrollbar-width: auto; scrollbar-color: rgba(103,83,219,.62) rgba(123,97,255,.10); }
+    .timeline-scroller::-webkit-scrollbar { height: 12px; }
+    .timeline-scroller::-webkit-scrollbar-track { border-radius: 99px; background: rgba(123,97,255,.08); }
+    .timeline-scroller::-webkit-scrollbar-thumb { min-width: 64px; border: 2px solid rgba(255,255,255,.72); border-radius: 99px; background: rgba(103,83,219,.68); }
+    .clip-timeline { position: relative; min-width: 100%; height: 82px; overflow: hidden; border: 1px solid rgba(41,42,49,.15); border-radius: 10px; background: #202127; user-select: none; touch-action: pan-x; }
+    .clip-waveform { position: absolute; inset: 0; width: 100%; height: 100%; opacity: .76; }
+    .clip-selection { --clip-play-progress: 0%; position: absolute; top: 5px; bottom: 5px; min-width: 36px; overflow: visible; border: 2px solid var(--lime); border-radius: 8px; background: rgba(216,255,99,.14); box-shadow: 0 0 0 9999px rgba(8,9,12,.48), 0 4px 16px rgba(0,0,0,.25); cursor: grab; touch-action: none; }
+    .clip-selection.dragging { cursor: grabbing; }
+    .clip-selection-progress { position: absolute; z-index: 0; inset: 0 auto 0 0; width: var(--clip-play-progress); overflow: hidden; border-radius: 5px 0 0 5px; background: linear-gradient(90deg, rgba(216,255,99,.10), rgba(216,255,99,.40)); pointer-events: none; }
+    .clip-playhead { position: absolute; z-index: 3; top: -4px; bottom: -4px; left: var(--clip-play-progress); display: none; width: 2px; border-radius: 99px; background: #fff; box-shadow: 0 0 0 1px rgba(31,32,38,.6), 0 0 11px rgba(216,255,99,.95); transform: translateX(-1px); pointer-events: none; }
+    .clip-selection.playing .clip-playhead { display: block; }
+    .clip-playhead::before { content: ''; position: absolute; top: -3px; left: 50%; width: 9px; height: 9px; border: 2px solid #202127; border-radius: 50%; background: var(--lime); box-shadow: 0 0 9px rgba(216,255,99,.9); transform: translate(-50%,-50%); animation: playhead-pulse .9s ease-in-out infinite alternate; }
+    .clip-playhead-time { position: absolute; top: 5px; left: 50%; padding: 3px 5px; border-radius: 5px; color: #202127; background: var(--lime); font-size: 8px; font-weight: 850; font-variant-numeric: tabular-nums; white-space: nowrap; transform: translateX(-50%); }
+    @keyframes playhead-pulse { to { box-shadow: 0 0 0 5px rgba(216,255,99,.16), 0 0 12px rgba(216,255,99,1); } }
+    .clip-handle { position: absolute; z-index: 4; top: 50%; width: 14px; height: 42px; border: 2px solid #202127; border-radius: 7px; background: var(--lime); box-shadow: 0 2px 8px rgba(0,0,0,.35); transform: translateY(-50%); cursor: ew-resize; }
+    .clip-handle::after { content: ''; position: absolute; top: 11px; bottom: 11px; left: 5px; width: 2px; border-radius: 2px; background: rgba(32,33,39,.55); }
+    .clip-handle.start { left: -8px; }
+    .clip-handle.end { right: -8px; }
+    .clip-selection-label { position: absolute; z-index: 2; top: 50%; left: 50%; max-width: calc(100% - 36px); overflow: hidden; color: #f8ffd8; font-size: 10px; font-weight: 820; text-overflow: ellipsis; text-shadow: 0 1px 3px #111; white-space: nowrap; transform: translate(-50%,-50%); pointer-events: none; }
+    .timeline-scale { display: flex; justify-content: space-between; margin-top: 5px; color: var(--muted); font-size: 9px; font-variant-numeric: tabular-nums; }
+    .timeline-tools { display: grid; grid-template-columns: auto minmax(90px,1fr) auto; gap: 8px; align-items: center; margin-top: 7px; color: var(--muted); font-size: 9px; }
+    .timeline-zoom { width: 100%; accent-color: #6753db; cursor: ew-resize; }
+    .timeline-fit { border: 1px solid rgba(123,97,255,.22); border-radius: 7px; padding: 5px 7px; color: #5c49ca; background: rgba(123,97,255,.07); cursor: pointer; font-size: 9px; font-weight: 800; }
+    .clip-preview { width: 100%; min-height: 34px; margin-top: 10px; border: 1px solid rgba(123,97,255,.24); border-radius: 9px; color: #5c49ca; background: rgba(123,97,255,.08); cursor: pointer; font-size: 11px; font-weight: 820; }
+    .clip-preview:hover:not(:disabled) { background: rgba(123,97,255,.15); }
     .clone-library { margin-top: 14px; padding-top: 13px; border-top: 1px solid rgba(123,97,255,.17); }
     .clone-library-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 8px; color: var(--muted); font-size: 10px; font-weight: 820; text-transform: uppercase; letter-spacing: .07em; }
     .refresh-clones { border: 0; padding: 4px 7px; border-radius: 7px; color: #6252c8; background: rgba(123,97,255,.09); cursor: pointer; font-size: 10px; font-weight: 800; }
@@ -407,7 +438,7 @@
 
       .clone-panel.show {
         display: grid; grid-template-columns: minmax(0, 1fr) minmax(175px, .7fr); grid-template-rows: auto auto auto;
-        column-gap: 11px; row-gap: 7px; max-height: 151px; margin: 0 0 10px; padding: 10px; overflow: hidden; border-radius: 14px;
+        column-gap: 11px; row-gap: 7px; max-height: min(310px, 42dvh); margin: 0 0 10px; padding: 10px; overflow-x: hidden; overflow-y: auto; overscroll-behavior: contain; border-radius: 14px;
       }
       .clone-upload { grid-column: 1; gap: 8px; }
       .upload-btn { border-radius: 9px; padding: 9px 10px; font-size: 10px; }
@@ -670,7 +701,7 @@
          Style and speed controls sit below, while saved voices scroll in-panel. */
       #settingsRow > .clone-panel.show {
         display: flex; flex-direction: column; height: var(--voice-panel-height); min-height: 0;
-        box-sizing: border-box; max-height: none; margin: 0; padding: 12px; overflow: hidden; border-radius: 16px;
+        box-sizing: border-box; max-height: none; margin: 0; padding: 12px; overflow-x: hidden; overflow-y: auto; overscroll-behavior: contain; scrollbar-color: rgba(103,83,219,.42) transparent; border-radius: 16px;
       }
       #settingsRow > .clone-panel.show .clone-upload { grid-column: auto; gap: 9px; }
       #settingsRow > .clone-panel.show .upload-btn { padding: 10px 11px; font-size: 12px; }
@@ -842,6 +873,25 @@
               <div class="clone-file-copy" id="cloneFileCopy"><b>Chưa chọn tệp</b>Dùng đoạn nói rõ 3–8 giây, ít nhạc nền.</div>
             </div>
             <audio class="reference-audio" id="referenceAudio" controls preload="metadata"></audio>
+            <div class="clip-editor" id="clipEditor">
+              <div class="clip-editor-head"><b>Chọn đoạn dùng để clone</b><span id="clipDuration">0,0 giây</span></div>
+              <div class="clip-help">Kéo vùng sáng để chọn vị trí; kéo hai mép để chỉnh độ dài từ 10 đến 15 giây.</div>
+              <div class="timeline-scroller" id="timelineScroller">
+                <div class="clip-timeline" id="clipTimeline">
+                  <canvas class="clip-waveform" id="clipWaveform" aria-hidden="true"></canvas>
+                  <div class="clip-selection" id="clipSelection">
+                    <span class="clip-selection-progress" aria-hidden="true"></span>
+                    <span class="clip-playhead" id="clipPlayhead" aria-hidden="true"><span class="clip-playhead-time" id="clipPlayheadTime">0:00.0</span></span>
+                    <span class="clip-handle start" data-handle="start" aria-hidden="true"></span>
+                    <span class="clip-selection-label" id="clipSelectionLabel">0:00.0 – 0:12.0</span>
+                    <span class="clip-handle end" data-handle="end" aria-hidden="true"></span>
+                  </div>
+                </div>
+                <div class="timeline-scale"><span>0:00</span><span id="timelineEnd">0:00</span></div>
+              </div>
+              <div class="timeline-tools"><span>Thu phóng</span><input class="timeline-zoom" id="timelineZoom" type="range" min="0" max="100" step="1" value="55" aria-label="Thu phóng timeline"><button class="timeline-fit" id="timelineFit" type="button">Xem toàn bộ</button></div>
+              <button class="clip-preview" id="previewClip" type="button">▶ Nghe đoạn đã chọn</button>
+            </div>
             <div class="clone-options">
               <input class="clone-name" id="cloneName" maxlength="60" placeholder="Tên gợi nhớ, ví dụ: Giọng của tôi">
             </div>
@@ -978,6 +1028,18 @@
     const cloneName = $('#cloneName');
     const cloneStatus = $('#cloneStatus');
     const referenceAudio = $('#referenceAudio');
+    const clipEditor = $('#clipEditor');
+    const clipDuration = $('#clipDuration');
+    const previewClip = $('#previewClip');
+    const timelineScroller = $('#timelineScroller');
+    const clipTimeline = $('#clipTimeline');
+    const clipWaveform = $('#clipWaveform');
+    const clipSelection = $('#clipSelection');
+    const clipSelectionLabel = $('#clipSelectionLabel');
+    const clipPlayheadTime = $('#clipPlayheadTime');
+    const timelineEnd = $('#timelineEnd');
+    const timelineZoom = $('#timelineZoom');
+    const timelineFit = $('#timelineFit');
     const cloneLibrary = $('#cloneLibrary');
     const refreshClones = $('#refreshClones');
     const savedClonePreviewAudio = $('#savedClonePreviewAudio');
@@ -988,6 +1050,12 @@
     let cloneId = null;
     let pendingCloneFile = null;
     let clonePreviewUrl = null;
+    let pendingCloneDuration = 0;
+    let pendingCloneBuffer = null;
+    let clipStartSeconds = 0;
+    let clipEndSeconds = 0;
+    let clipPreviewTimer = null;
+    let clipPreviewAnimationFrame = null;
     let presetPreviewUrl = null;
     let previewingPreset = false;
     let activePresetPreviewButton = null;
@@ -1352,13 +1420,169 @@
       });
       pickClone.disabled = running || enrollingClone || renamingClone || previewingSavedClone;
       refreshClones.disabled = running || enrollingClone || renamingClone || previewingSavedClone;
-      addClone.disabled = !pendingCloneFile || !cloneName.value.trim() || running || enrollingClone || renamingClone || previewingSavedClone;
+      const clipLength = clipEndSeconds - clipStartSeconds;
+      const invalidClip = clipEditor.classList.contains('show') && (clipLength < 10 || clipLength > 15);
+      addClone.disabled = !pendingCloneFile || !cloneName.value.trim() || invalidClip || running || enrollingClone || renamingClone || previewingSavedClone;
       if (running) return;
       if (!ready) generateText.textContent = 'Chờ model sẵn sàng…';
       else if (enrollingClone) generateText.textContent = 'Đang học giọng mẫu…';
       else if (previewingAny) generateText.textContent = 'Đang tạo bản nghe thử…';
       else if (needsClone) generateText.textContent = 'Chọn audio mẫu để clone';
       else generateText.textContent = idleGenerateLabel();
+    }
+
+    function formatClipTime(seconds) {
+      const safe = Math.max(0, Number(seconds) || 0);
+      const minutes = Math.floor(safe / 60);
+      return `${minutes}:${(safe % 60).toFixed(1).padStart(4, '0')}`;
+    }
+
+    function resetClipPlayback(resetPosition = true) {
+      referenceAudio.pause();
+      clearTimeout(clipPreviewTimer);
+      cancelAnimationFrame(clipPreviewAnimationFrame);
+      clipPreviewAnimationFrame = null;
+      clipSelection.classList.remove('playing');
+      clipSelection.style.setProperty('--clip-play-progress', '0%');
+      clipPlayheadTime.textContent = formatClipTime(clipStartSeconds);
+      previewClip.textContent = '▶ Nghe đoạn đã chọn';
+      if (resetPosition && Number.isFinite(referenceAudio.duration)) referenceAudio.currentTime = clipStartSeconds;
+    }
+
+    function updateClipPlaybackEffect() {
+      const length = Math.max(.001, clipEndSeconds - clipStartSeconds);
+      const elapsed = Math.max(0, Math.min(length, referenceAudio.currentTime - clipStartSeconds));
+      const progress = (elapsed / length) * 100;
+      clipSelection.style.setProperty('--clip-play-progress', `${progress}%`);
+      clipPlayheadTime.textContent = formatClipTime(clipStartSeconds + elapsed);
+    }
+
+    function animateClipPlayback() {
+      updateClipPlaybackEffect();
+      if (!referenceAudio.paused && referenceAudio.currentTime < clipEndSeconds) {
+        clipPreviewAnimationFrame = requestAnimationFrame(animateClipPlayback);
+      }
+    }
+
+    function renderClipSelection() {
+      if (!pendingCloneDuration) return;
+      clipSelection.style.left = `${(clipStartSeconds / pendingCloneDuration) * 100}%`;
+      clipSelection.style.width = `${((clipEndSeconds - clipStartSeconds) / pendingCloneDuration) * 100}%`;
+      clipSelectionLabel.textContent = `${formatClipTime(clipStartSeconds)} – ${formatClipTime(clipEndSeconds)}`;
+      clipDuration.textContent = `${(clipEndSeconds - clipStartSeconds).toFixed(1).replace('.', ',')} giây`;
+      resetClipPlayback(true);
+      updateGenerateAvailability();
+    }
+
+    function setClipSelection(start, end, mode = 'move') {
+      if (!pendingCloneDuration) return;
+      let nextStart = Number(start);
+      let nextEnd = Number(end);
+      if (mode === 'start') nextStart = Math.min(nextStart, nextEnd - 10);
+      if (mode === 'end') nextEnd = Math.max(nextEnd, nextStart + 10);
+      if (nextEnd - nextStart > 15) {
+        if (mode === 'start') nextStart = nextEnd - 15;
+        else nextEnd = nextStart + 15;
+      }
+      const length = Math.min(15, Math.max(10, nextEnd - nextStart));
+      if (mode === 'move') {
+        nextStart = Math.max(0, Math.min(nextStart, pendingCloneDuration - length));
+        nextEnd = nextStart + length;
+      } else if (mode === 'start') {
+        nextStart = Math.max(0, Math.min(nextStart, nextEnd - 10));
+        nextEnd = Math.min(pendingCloneDuration, nextEnd);
+      } else {
+        nextStart = Math.max(0, nextStart);
+        nextEnd = Math.min(pendingCloneDuration, Math.max(nextEnd, nextStart + 10));
+      }
+      clipStartSeconds = Math.round(nextStart * 10) / 10;
+      clipEndSeconds = Math.round(nextEnd * 10) / 10;
+      renderClipSelection();
+    }
+
+    function drawClipWaveform(buffer) {
+      const viewportWidth = timelineScroller.clientWidth || 420;
+      const zoomValue = Number(timelineZoom.value);
+      const pixelsPerSecond = zoomValue === 0 ? 0 : 6 + zoomValue * .44;
+      const cssWidth = zoomValue === 0 ? viewportWidth : Math.max(viewportWidth, Math.min(16000, pendingCloneDuration * pixelsPerSecond));
+      clipTimeline.style.width = `${Math.round(cssWidth)}px`;
+      const ratio = Math.min(window.devicePixelRatio || 1, 2);
+      clipWaveform.width = Math.round(cssWidth * ratio);
+      clipWaveform.height = Math.round(82 * ratio);
+      const context = clipWaveform.getContext('2d');
+      context.setTransform(ratio, 0, 0, ratio, 0, 0);
+      context.clearRect(0, 0, cssWidth, 82);
+      const data = buffer.getChannelData(0);
+      const bars = Math.max(80, Math.floor(cssWidth / 4));
+      const samplesPerBar = Math.max(1, Math.floor(data.length / bars));
+      context.fillStyle = 'rgba(216,255,99,.72)';
+      for (let bar = 0; bar < bars; bar += 1) {
+        const from = bar * samplesPerBar;
+        const to = Math.min(data.length, from + samplesPerBar);
+        let peak = 0;
+        const stride = Math.max(1, Math.floor(samplesPerBar / 40));
+        for (let sample = from; sample < to; sample += stride) peak = Math.max(peak, Math.abs(data[sample]));
+        const height = Math.max(2, peak * 68);
+        context.fillRect((bar / bars) * cssWidth, (82 - height) / 2, Math.max(1.5, cssWidth / bars - 1.5), height);
+      }
+      timelineEnd.textContent = formatClipTime(pendingCloneDuration).replace(/\.0$/, '');
+    }
+
+    function centerClipInTimeline() {
+      const center = ((clipStartSeconds + clipEndSeconds) / 2 / pendingCloneDuration) * clipTimeline.scrollWidth;
+      timelineScroller.scrollLeft = Math.max(0, center - timelineScroller.clientWidth / 2);
+    }
+
+    function redrawClipTimeline(centerSelection = true) {
+      if (!pendingCloneBuffer || !pendingCloneDuration) return;
+      drawClipWaveform(pendingCloneBuffer);
+      renderClipSelection();
+      if (centerSelection) requestAnimationFrame(centerClipInTimeline);
+    }
+
+    function writeAscii(view, offset, value) {
+      for (let index = 0; index < value.length; index += 1) view.setUint8(offset + index, value.charCodeAt(index));
+    }
+
+    async function createTrimmedCloneFile(file) {
+      const startSeconds = clipEditor.classList.contains('show') ? clipStartSeconds : 0;
+      const endSeconds = clipEditor.classList.contains('show') ? clipEndSeconds : pendingCloneDuration;
+      if (startSeconds <= .01 && endSeconds >= pendingCloneDuration - .01 && pendingCloneDuration <= 15) return file;
+      const context = new (window.AudioContext || window.webkitAudioContext)();
+      try {
+        const decoded = pendingCloneBuffer || await context.decodeAudioData(await file.arrayBuffer());
+        const startFrame = Math.max(0, Math.floor(startSeconds * decoded.sampleRate));
+        const endFrame = Math.min(decoded.length, Math.ceil(endSeconds * decoded.sampleRate));
+        const frameCount = endFrame - startFrame;
+        if (frameCount < decoded.sampleRate * 9.95 || frameCount > decoded.sampleRate * 15.05) {
+          throw new Error('Hãy chọn một đoạn audio từ 10 đến 15 giây.');
+        }
+        const channels = Math.min(decoded.numberOfChannels, 2);
+        const bytesPerSample = 2;
+        const dataBytes = frameCount * channels * bytesPerSample;
+        const wav = new ArrayBuffer(44 + dataBytes);
+        const view = new DataView(wav);
+        writeAscii(view, 0, 'RIFF'); view.setUint32(4, 36 + dataBytes, true);
+        writeAscii(view, 8, 'WAVE'); writeAscii(view, 12, 'fmt ');
+        view.setUint32(16, 16, true); view.setUint16(20, 1, true);
+        view.setUint16(22, channels, true); view.setUint32(24, decoded.sampleRate, true);
+        view.setUint32(28, decoded.sampleRate * channels * bytesPerSample, true);
+        view.setUint16(32, channels * bytesPerSample, true); view.setUint16(34, 16, true);
+        writeAscii(view, 36, 'data'); view.setUint32(40, dataBytes, true);
+        const channelData = Array.from({ length: channels }, (_, channel) => decoded.getChannelData(channel));
+        let offset = 44;
+        for (let frame = startFrame; frame < endFrame; frame += 1) {
+          for (let channel = 0; channel < channels; channel += 1) {
+            const sample = Math.max(-1, Math.min(1, channelData[channel][frame]));
+            view.setInt16(offset, sample < 0 ? sample * 0x8000 : sample * 0x7fff, true);
+            offset += 2;
+          }
+        }
+        const baseName = file.name.replace(/\.[^.]+$/, '') || 'audio-mau';
+        return new File([wav], `${baseName}-cat-${startSeconds.toFixed(1)}-${endSeconds.toFixed(1)}.wav`, { type: 'audio/wav' });
+      } finally {
+        context.close().catch(() => {});
+      }
     }
 
     function applyVoiceSource(nextSource) {
@@ -1474,10 +1698,13 @@
       stopSavedClonePreview();
       if (userAction) {
         pendingCloneFile = null;
+        pendingCloneDuration = 0;
+        pendingCloneBuffer = null;
         cloneFile.value = '';
         referenceAudio.pause();
         referenceAudio.classList.remove('ready');
         referenceAudio.removeAttribute('src');
+        clipEditor.classList.remove('show');
         if (clonePreviewUrl) URL.revokeObjectURL(clonePreviewUrl);
         clonePreviewUrl = null;
         cloneFileCopy.innerHTML = '<b>Chưa chọn tệp mới</b><span>Đang dùng giọng đã lưu bên dưới.</span>';
@@ -1747,7 +1974,10 @@
         const result = await response.json();
         cloneId = result.id;
         pendingCloneFile = null;
+        pendingCloneDuration = 0;
+        pendingCloneBuffer = null;
         cloneFile.value = '';
+        clipEditor.classList.remove('show');
         cloneFileCopy.innerHTML = '<b>Đã thêm giọng</b><span>Chọn audio mẫu khác để thêm một giọng mới.</span>';
         cloneName.value = result.name;
         cloneStatus.className = 'clone-status ready';
@@ -1781,11 +2011,83 @@
     });
     refreshClones.addEventListener('click', loadClones);
     pickClone.addEventListener('click', () => cloneFile.click());
-    addClone.addEventListener('click', () => {
-      if (pendingCloneFile && cloneName.value.trim()) enrollCloneFile(pendingCloneFile);
+    addClone.addEventListener('click', async () => {
+      if (!pendingCloneFile || !cloneName.value.trim()) return;
+      addClone.disabled = true;
+      cloneStatus.className = 'clone-status';
+      cloneStatus.textContent = clipEditor.classList.contains('show') ? 'Đang cắt đoạn audio đã chọn…' : 'Đang chuẩn bị audio mẫu…';
+      try {
+        const uploadFile = await createTrimmedCloneFile(pendingCloneFile);
+        await enrollCloneFile(uploadFile);
+      } catch (error) {
+        cloneStatus.className = 'clone-status error';
+        cloneStatus.textContent = error.message || String(error);
+        showNotice('error', 'Chưa cắt được audio mẫu.', error.message || String(error));
+        updateGenerateAvailability();
+      }
     });
     cloneName.addEventListener('input', updateGenerateAvailability);
-    cloneFile.addEventListener('change', () => {
+    clipTimeline.addEventListener('pointerdown', (event) => {
+      if (!pendingCloneDuration || event.target.closest('#clipSelection')) return;
+      const rect = clipTimeline.getBoundingClientRect();
+      const clickedSeconds = ((event.clientX - rect.left) / rect.width) * pendingCloneDuration;
+      const selectionLength = Math.min(15, Math.max(10, clipEndSeconds - clipStartSeconds || 12));
+      setClipSelection(clickedSeconds, clickedSeconds + selectionLength, 'move');
+    });
+    timelineZoom.addEventListener('input', () => redrawClipTimeline(true));
+    timelineFit.addEventListener('click', () => {
+      timelineZoom.value = '0';
+      redrawClipTimeline(false);
+      timelineScroller.scrollLeft = 0;
+    });
+    clipSelection.addEventListener('pointerdown', (event) => {
+      if (!pendingCloneDuration) return;
+      event.preventDefault();
+      const handle = event.target.closest('[data-handle]');
+      const mode = handle?.dataset.handle || 'move';
+      const initialX = event.clientX;
+      const initialStart = clipStartSeconds;
+      const initialEnd = clipEndSeconds;
+      const pixelsPerSecond = clipTimeline.getBoundingClientRect().width / pendingCloneDuration;
+      clipSelection.classList.add('dragging');
+      clipSelection.setPointerCapture(event.pointerId);
+      const move = (moveEvent) => {
+        const delta = (moveEvent.clientX - initialX) / pixelsPerSecond;
+        if (mode === 'start') setClipSelection(initialStart + delta, initialEnd, 'start');
+        else if (mode === 'end') setClipSelection(initialStart, initialEnd + delta, 'end');
+        else setClipSelection(initialStart + delta, initialEnd + delta, 'move');
+      };
+      const finish = () => {
+        clipSelection.classList.remove('dragging');
+        clipSelection.removeEventListener('pointermove', move);
+        clipSelection.removeEventListener('pointerup', finish);
+        clipSelection.removeEventListener('pointercancel', finish);
+      };
+      clipSelection.addEventListener('pointermove', move);
+      clipSelection.addEventListener('pointerup', finish);
+      clipSelection.addEventListener('pointercancel', finish);
+    });
+    previewClip.addEventListener('click', () => {
+      if (!pendingCloneFile) return;
+      const start = clipStartSeconds;
+      const end = clipEndSeconds;
+      if (!referenceAudio.paused) {
+        resetClipPlayback(true);
+        return;
+      }
+      referenceAudio.currentTime = start;
+      referenceAudio.play().then(() => {
+        previewClip.textContent = '■ Dừng nghe';
+        clipSelection.classList.add('playing');
+        cancelAnimationFrame(clipPreviewAnimationFrame);
+        animateClipPlayback();
+        clearTimeout(clipPreviewTimer);
+        clipPreviewTimer = setTimeout(() => {
+          resetClipPlayback(true);
+        }, Math.max(0, end - start) * 1000);
+      }).catch(() => {});
+    });
+    cloneFile.addEventListener('change', async () => {
       const file = cloneFile.files?.[0];
       if (!file) return;
       applyVoiceSource('clone');
@@ -1801,8 +2103,43 @@
       clonePreviewUrl = URL.createObjectURL(file);
       referenceAudio.src = clonePreviewUrl;
       referenceAudio.classList.add('ready');
+      pendingCloneDuration = 0;
+      pendingCloneBuffer = null;
+      clipEditor.classList.remove('show');
       cloneStatus.className = 'clone-status';
-      cloneStatus.textContent = 'Đã chọn audio mẫu. Kiểm tra tên giọng rồi bấm “Thêm giọng”.';
+      cloneStatus.textContent = 'Đang đọc waveform và thời lượng audio…';
+      try {
+        const decodeContext = new (window.AudioContext || window.webkitAudioContext)();
+        try {
+          pendingCloneBuffer = await decodeContext.decodeAudioData(await file.arrayBuffer());
+        } finally {
+          decodeContext.close().catch(() => {});
+        }
+        pendingCloneDuration = pendingCloneBuffer.duration;
+        if (pendingCloneDuration > 15) {
+          const initialLength = Math.min(12, pendingCloneDuration);
+          clipStartSeconds = Math.max(0, (pendingCloneDuration - initialLength) / 2);
+          clipEndSeconds = clipStartSeconds + initialLength;
+          clipEditor.classList.add('show');
+          drawClipWaveform(pendingCloneBuffer);
+          setClipSelection(clipStartSeconds, clipEndSeconds, 'move');
+          requestAnimationFrame(() => {
+            const center = ((clipStartSeconds + clipEndSeconds) / 2 / pendingCloneDuration) * clipTimeline.scrollWidth;
+            timelineScroller.scrollLeft = Math.max(0, center - timelineScroller.clientWidth / 2);
+          });
+          cloneFileCopy.querySelector('span').textContent = `${(file.size / 1024 / 1024).toFixed(1)} MB · ${pendingCloneDuration.toFixed(1).replace('.', ',')} giây · hãy chọn đoạn`;
+          cloneStatus.textContent = 'Audio dài hơn 15 giây. Kéo vùng sáng để chọn đoạn rõ tiếng từ 10 đến 15 giây.';
+        } else {
+          clipStartSeconds = 0;
+          clipEndSeconds = pendingCloneDuration;
+          cloneStatus.textContent = 'Đã chọn audio mẫu. Kiểm tra tên giọng rồi bấm “Thêm giọng”.';
+        }
+      } catch (error) {
+        pendingCloneBuffer = null;
+        pendingCloneDuration = 0;
+        cloneStatus.className = 'clone-status error';
+        cloneStatus.textContent = 'Không đọc được audio để tạo timeline. Hãy thử WAV, MP3 hoặc FLAC khác.';
+      }
       updateGenerateAvailability();
     });
     applyVoiceSource('preset');

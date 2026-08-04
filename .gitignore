@@ -6,9 +6,11 @@ dist/
 wheels/
 *.egg-info
 .pytest_cache/
+.cache/
 
 # Virtual environments
 .venv
+.venv-train/
 .xpu_venv
 outputs/
 .env
@@ -20,13 +22,9 @@ finetune/output/
 # Merged Models
 merged_models_cache/
 
-# Quick Studio local data. Reusable clone features are intentionally synced;
-# rendered history, cache, and any other app data stay local.
-.quick-studio-data/*
-!.quick-studio-data/README.md
-!.quick-studio-data/cloned_voices/
-.quick-studio-data/cloned_voices/*
-!.quick-studio-data/cloned_voices/*.npz
+# Quick Studio local data can contain reusable voice features and recordings.
+# Keep all of it on the current computer.
+.quick-studio-data/
 
 # Local launcher logs
 .quick-studio-start.*.log

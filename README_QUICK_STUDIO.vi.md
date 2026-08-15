@@ -21,6 +21,11 @@ Lần chạy đầu cần Internet để tải thư viện và model. Các lần
 5. Nhập nội dung và bấm nút tạo giọng.
 6. Sau khi hoàn tất có thể tải file WAV 48 kHz.
 
+Mỗi bản render hoàn chỉnh được lưu vào **Lịch sử tạo giọng** trên máy để có thể
+nghe lại, tải WAV hoặc xóa riêng từng bản. EditorVoice chỉ nhận WAV PCM hợp lệ,
+tự đọc thời lượng từ tệp và giới hạn mỗi bản ở 64 MB để tránh dữ liệu lỗi làm đầy
+bộ nhớ. Tối đa 20 bản gần nhất được giữ lại.
+
 Các thẻ `[cười]`, `[thở dài]`, `[hắng giọng]` là tính năng thử nghiệm của v3 Turbo.
 
 Khi bật **Lưu để lần sau dùng lại**, dấu giọng đã trích xuất được lưu cục bộ trong `.quick-studio-data/cloned_voices`. Lần sau mở ứng dụng, chọn lại giọng trong mục **Giọng đã lưu trên máy** mà không cần tải audio mẫu. Mỗi giọng đã lưu có nút **Nghe** để tạo và phát một câu thử bằng chính giọng clone đó; thao tác nghe thử không làm đổi giọng đang chọn. Nút xóa ở cạnh từng giọng yêu cầu bấm xác nhận lần hai để tránh xóa nhầm. Audio gốc không được lưu và không được gửi lên dịch vụ TTS bên ngoài. Chỉ sử dụng giọng của bạn hoặc giọng bạn được phép sử dụng.

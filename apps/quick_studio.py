@@ -35,7 +35,12 @@ from pydantic import BaseModel, Field
 
 from vieneu import Vieneu
 
-from .quick_studio_audio import MAX_SPEECH_SPEED, MIN_SPEECH_SPEED, time_stretch
+from .quick_studio_audio import (
+    MAX_SPEECH_SPEED,
+    MIN_SPEECH_SPEED,
+    pcm_wav_duration,
+    time_stretch,
+)
 
 
 if sys.platform == "win32":
@@ -91,6 +96,7 @@ _history_records: list[dict] = []
 _history_lock = threading.Lock()
 MAX_CLONED_VOICES = 50
 MAX_HISTORY_RECORDS = 20
+MAX_HISTORY_AUDIO_BYTES = 64 * 1024 * 1024
 MAX_REFERENCE_BYTES = 20 * 1024 * 1024
 MIN_REFERENCE_SECONDS = 2.0
 MAX_REFERENCE_SECONDS = 15.0
@@ -470,7 +476,7 @@ async def save_voice_history(
     clean_text = text.strip()
     if not clean_text:
         raise HTTPException(status_code=400, detail="Nội dung bản thu đang trống.")
-    if not np.isfinite(speed) or speed <= 0 or not np.isfinite(duration) or duration < 0:
+    if not np.isfinite(speed) or speed <= 0:
         raise HTTPException(status_code=400, detail="Thông tin bản thu không hợp lệ.")
 
     entry_id = uuid.uuid4().hex
@@ -489,9 +495,19 @@ async def save_voice_history(
                 if not chunk:
                     break
                 byte_count += len(chunk)
+                if byte_count > MAX_HISTORY_AUDIO_BYTES:
+                    raise HTTPException(
+                        status_code=413,
+                        detail="Bản WAV vượt quá giới hạn lưu trữ 64 MB.",
+                    )
                 temp_file.write(chunk)
-        if byte_count < 45:
-            raise HTTPException(status_code=400, detail="Bản WAV đang trống hoặc không hợp lệ.")
+        try:
+            actual_duration = pcm_wav_duration(temporary)
+        except ValueError as exc:
+            raise HTTPException(
+                status_code=400,
+                detail="Tệp tải lên không phải bản WAV PCM hợp lệ.",
+            ) from exc
         os.replace(temporary, target)
         temporary = None
     except HTTPException:
@@ -511,7 +527,7 @@ async def save_voice_history(
         "source": source[:32],
         "style": style[:32],
         "speed": round(float(speed), 3),
-        "duration": round(float(duration), 3),
+        "duration": round(actual_duration, 3),
         "mode": mode[:32],
         "fileName": f"editorvoice-{created_at}.wav",
     }

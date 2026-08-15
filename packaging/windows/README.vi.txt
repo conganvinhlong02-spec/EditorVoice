@@ -23,3 +23,9 @@ Nhật ký lần chạy gần nhất nằm tại:
 %LOCALAPPDATA%\EditorVoice\logs\latest.log
 
 Công nghệ giọng nói trong ứng dụng được phát hành theo giấy phép Apache-2.0.
+
+Phiên bản quà tặng
+------------------
+Gói được build với tùy chọn `-Unlimited` không kiểm tra ngày hết hạn. Tùy chọn
+này chỉ ảnh hưởng launcher của bản quà tặng; bản phát hành chuẩn vẫn giữ chính
+sách thời hạn hiện tại.

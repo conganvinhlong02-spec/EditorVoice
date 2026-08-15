@@ -1,7 +1,10 @@
 import numpy as np
+import tempfile
 import unittest
+import wave
+from pathlib import Path
 
-from apps.quick_studio_audio import master_for_podcast, time_stretch
+from apps.quick_studio_audio import master_for_podcast, pcm_wav_duration, time_stretch
 
 
 class QuickStudioAudioTests(unittest.TestCase):
@@ -80,6 +83,36 @@ class QuickStudioAudioTests(unittest.TestCase):
         self.assertLessEqual(float(np.max(np.abs(mastered))), 0.9401)
         self.assertAlmostEqual(float(mastered[0]), 0.0, places=6)
         self.assertAlmostEqual(float(mastered[-1]), 0.0, places=6)
+
+    def test_pcm_wav_duration_reads_audio_metadata(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "recording.wav"
+            with wave.open(str(path), "wb") as wav_file:
+                wav_file.setnchannels(1)
+                wav_file.setsampwidth(2)
+                wav_file.setframerate(self.sample_rate)
+                wav_file.writeframes(np.zeros(self.sample_rate * 2, dtype="<i2").tobytes())
+
+            self.assertAlmostEqual(pcm_wav_duration(path), 2.0)
+
+    def test_pcm_wav_duration_rejects_non_audio_payload(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "fake.wav"
+            path.write_bytes(b"not really a wav file" * 4)
+
+            with self.assertRaises(ValueError):
+                pcm_wav_duration(path)
+
+    def test_pcm_wav_duration_rejects_empty_wav(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "empty.wav"
+            with wave.open(str(path), "wb") as wav_file:
+                wav_file.setnchannels(1)
+                wav_file.setsampwidth(2)
+                wav_file.setframerate(self.sample_rate)
+
+            with self.assertRaises(ValueError):
+                pcm_wav_duration(path)
 
 
 if __name__ == "__main__":

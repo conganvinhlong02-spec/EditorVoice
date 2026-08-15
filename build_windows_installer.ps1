@@ -1,13 +1,18 @@
 param(
-    [string]$PackageName = "EditorVoice-Windows"
+    [switch]$Unlimited,
+    [string]$PackageName = ""
 )
 
 $ErrorActionPreference = "Stop"
 $ProjectRoot = Split-Path -Parent $MyInvocation.MyCommand.Path
 $DistRoot = Join-Path $ProjectRoot "dist"
+if ([string]::IsNullOrWhiteSpace($PackageName)) {
+    $PackageName = if ($Unlimited) { "EditorVoice-Gift-Unlimited" } else { "EditorVoice-Windows" }
+}
 $PackageRoot = Join-Path $DistRoot $PackageName
-$Payload = Join-Path $DistRoot "EditorVoice-Installer-Payload.zip"
-$Installer = Join-Path $DistRoot "EditorVoice-Setup.exe"
+$ArtifactPrefix = if ($Unlimited) { "EditorVoice-Gift-Unlimited" } else { "EditorVoice" }
+$Payload = Join-Path $DistRoot ($ArtifactPrefix + "-Installer-Payload.zip")
+$Installer = Join-Path $DistRoot ($ArtifactPrefix + "-Setup.exe")
 $InstallerSource = Join-Path $ProjectRoot "packaging\windows\EditorVoiceInstaller.cs"
 $Csc = "C:\Windows\Microsoft.NET\Framework64\v4.0.30319\csc.exe"
 $IconPath = Join-Path $ProjectRoot "packaging\windows\EditorVoice.ico"

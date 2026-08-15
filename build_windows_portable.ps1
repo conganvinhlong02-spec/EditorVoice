@@ -1,11 +1,15 @@
 param(
     [switch]$SkipArchive,
-    [string]$PackageName = "EditorVoice-Windows"
+    [switch]$Unlimited,
+    [string]$PackageName = ""
 )
 
 $ErrorActionPreference = "Stop"
 $ProjectRoot = Split-Path -Parent $MyInvocation.MyCommand.Path
 $DistRoot = Join-Path $ProjectRoot "dist"
+if ([string]::IsNullOrWhiteSpace($PackageName)) {
+    $PackageName = if ($Unlimited) { "EditorVoice-Gift-Unlimited" } else { "EditorVoice-Windows" }
+}
 $PackageRoot = Join-Path $DistRoot $PackageName
 $RuntimeRoot = Join-Path $PackageRoot "runtime"
 $AppRoot = Join-Path $PackageRoot "app"
@@ -67,13 +71,34 @@ Invoke-Robocopy (Join-Path $ProjectRoot "src\vieneu") (Join-Path $AppRoot "src\v
 Invoke-Robocopy (Join-Path $ProjectRoot "src\vieneu_utils") (Join-Path $AppRoot "src\vieneu_utils") @("/XD", "__pycache__")
 Copy-Item -LiteralPath (Join-Path $ProjectRoot "LICENSE") -Destination (Join-Path $PackageRoot "LICENSE.txt") -Force
 Copy-Item -LiteralPath (Join-Path $ProjectRoot "packaging\windows\README.vi.txt") -Destination (Join-Path $PackageRoot "DOC-TRUOC.txt") -Force
+if ($Unlimited) {
+    @(
+        "EDITORVOICE - PHIEN BAN QUA TANG KHONG GIOI HAN THOI GIAN",
+        "",
+        "Ban nay khong kiem tra ngay het han.",
+        "Du lieu giong clone va lich su van chi duoc luu cuc bo tren may."
+    ) | Set-Content -LiteralPath (Join-Path $PackageRoot "PHIEN-BAN-QUA-TANG.txt") -Encoding UTF8
+}
 
 Write-Host "[4/6] Compiling the Windows launcher..." -ForegroundColor Cyan
 $IconBuilder = Join-Path $ProjectRoot "packaging\windows\New-EditorVoiceIcon.ps1"
 & $IconBuilder -OutputPath $IconPath
 $LauncherSource = Join-Path $ProjectRoot "packaging\windows\EditorVoiceLauncher.cs"
 $LauncherExe = Join-Path $PackageRoot "EditorVoice.exe"
-& $Csc /nologo /codepage:65001 /target:winexe /platform:x64 /optimize+ /reference:System.dll /reference:System.Drawing.dll /reference:System.Windows.Forms.dll /win32icon:$IconPath /out:$LauncherExe $LauncherSource
+$compilerArguments = @(
+    "/nologo",
+    "/codepage:65001",
+    "/target:winexe",
+    "/platform:x64",
+    "/optimize+",
+    "/reference:System.dll",
+    "/reference:System.Drawing.dll",
+    "/reference:System.Windows.Forms.dll",
+    "/win32icon:$IconPath",
+    "/out:$LauncherExe"
+)
+if ($Unlimited) { $compilerArguments += "/define:EDITORVOICE_UNLIMITED" }
+& $Csc @compilerArguments $LauncherSource
 if ($LASTEXITCODE -ne 0 -or -not (Test-Path -LiteralPath $LauncherExe)) {
     throw "Cannot create EditorVoice.exe"
 }
@@ -98,7 +123,7 @@ finally {
 
 Write-Host "[6/6] Windows package completed." -ForegroundColor Green
 if (-not $SkipArchive) {
-    $ArchivePath = Join-Path $DistRoot "EditorVoice-Windows.zip"
+    $ArchivePath = Join-Path $DistRoot ($PackageName + ".zip")
     Assert-SafePackagePath $ArchivePath
     if (Test-Path -LiteralPath $ArchivePath) { Remove-Item -LiteralPath $ArchivePath -Force }
     Write-Host "Creating ZIP archive (this may take a few minutes)..." -ForegroundColor DarkGray

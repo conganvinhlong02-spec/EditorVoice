@@ -2,11 +2,43 @@
 
 from __future__ import annotations
 
+import os
+import wave
+
 import numpy as np
 
 
 MIN_SPEECH_SPEED = 0.75
 MAX_SPEECH_SPEED = 1.25
+
+
+def pcm_wav_duration(path: str | os.PathLike[str]) -> float:
+    """Return the duration of a non-empty PCM WAV file.
+
+    Quick Studio stores browser-generated recordings in its local history.  Use
+    the standard-library WAV parser instead of trusting the upload's extension
+    or client-reported duration, so corrupt/non-audio payloads never enter the
+    history directory.
+    """
+    try:
+        with wave.open(os.fspath(path), "rb") as wav_file:
+            frame_rate = wav_file.getframerate()
+            frame_count = wav_file.getnframes()
+            channel_count = wav_file.getnchannels()
+            sample_width = wav_file.getsampwidth()
+            compression = wav_file.getcomptype()
+    except (EOFError, OSError, wave.Error) as exc:
+        raise ValueError("invalid WAV file") from exc
+
+    if (
+        compression != "NONE"
+        or frame_rate <= 0
+        or frame_count <= 0
+        or channel_count not in (1, 2)
+        or sample_width not in (1, 2, 3, 4)
+    ):
+        raise ValueError("WAV file must contain mono or stereo PCM audio")
+    return frame_count / frame_rate
 
 
 def master_for_podcast(audio: np.ndarray, sample_rate: int = 48_000) -> np.ndarray:

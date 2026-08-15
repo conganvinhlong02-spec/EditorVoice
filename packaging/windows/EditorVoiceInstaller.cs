@@ -11,7 +11,7 @@ using Microsoft.Win32;
 internal static class EditorVoiceInstaller
 {
     private const string ProductName = "EditorVoice";
-    private const string ProductVersion = "1.2.29";
+    private const string ProductVersion = "1.2.30";
     private const string PayloadResource = "EditorVoice.Package.zip";
     private const string UninstallKey = @"Software\Microsoft\Windows\CurrentVersion\Uninstall\EditorVoice";
 

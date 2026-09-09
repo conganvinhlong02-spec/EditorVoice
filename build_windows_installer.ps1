@@ -28,7 +28,24 @@ if (Test-Path -LiteralPath $Installer) { Remove-Item -LiteralPath $Installer -Fo
 Add-Type -AssemblyName System.IO.Compression.FileSystem
 [System.IO.Compression.ZipFile]::CreateFromDirectory($PackageRoot, $Payload, [System.IO.Compression.CompressionLevel]::Optimal, $false)
 
-& $Csc /nologo /codepage:65001 /target:winexe /platform:x64 /optimize+ /reference:System.dll /reference:System.Drawing.dll /reference:System.Windows.Forms.dll /reference:System.IO.Compression.dll /reference:System.IO.Compression.FileSystem.dll /reference:System.Core.dll /win32icon:$IconPath /resource:$Payload,EditorVoice.Package.zip /out:$Installer $InstallerSource
+$compilerArguments = @(
+    "/nologo",
+    "/codepage:65001",
+    "/target:winexe",
+    "/platform:x64",
+    "/optimize+",
+    "/reference:System.dll",
+    "/reference:System.Drawing.dll",
+    "/reference:System.Windows.Forms.dll",
+    "/reference:System.IO.Compression.dll",
+    "/reference:System.IO.Compression.FileSystem.dll",
+    "/reference:System.Core.dll",
+    "/win32icon:$IconPath",
+    "/resource:$Payload,EditorVoice.Package.zip",
+    "/out:$Installer",
+    $InstallerSource
+)
+& $Csc @compilerArguments
 if ($LASTEXITCODE -ne 0 -or -not (Test-Path -LiteralPath $Installer)) { throw "Cannot create the Windows installer." }
 
 Remove-Item -LiteralPath $Payload -Force

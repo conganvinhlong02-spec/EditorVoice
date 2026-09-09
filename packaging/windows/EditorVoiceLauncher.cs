@@ -17,14 +17,14 @@ namespace EditorVoiceDesktop
         // EditorVN release policy: every future package must update the fixed
         // expiry, product version and visible release code together unless the
         // owner explicitly changes this policy.
-        internal static readonly DateTime ReleaseExpiresAt = new DateTime(2026, 8, 30, 0, 0, 0, DateTimeKind.Local);
+        internal static readonly DateTime ReleaseExpiresAt = new DateTime(2026, 9, 30, 0, 0, 0, DateTimeKind.Local);
 #if EDITORVOICE_UNLIMITED
         internal const bool UnlimitedRelease = true;
 #else
         internal const bool UnlimitedRelease = false;
 #endif
         internal const string ProductVersion = "1.2.30";
-        internal const string ReleaseCode = "30082600";
+        internal const string ReleaseCode = "30092600";
         internal const string UpdateUrl = "https://EditorVN.com";
 
         [DllImport("shell32.dll", CharSet = CharSet.Unicode, PreserveSig = true)]
@@ -159,7 +159,7 @@ namespace EditorVoiceDesktop
             badge.ForeColor = Color.FromArgb(92, 73, 202);
             badge.TextAlign = ContentAlignment.MiddleCenter;
             badge.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
-            badge.Text = "PHIÊN BẢN ĐÃ HẾT HẠN";
+            badge.Text = "ĐÃ CÓ PHIÊN BẢN MỚI";
             Controls.Add(badge);
 
             Label title = new Label();
@@ -168,7 +168,7 @@ namespace EditorVoiceDesktop
             title.Size = new Size(584, 55);
             title.ForeColor = Color.FromArgb(17, 18, 23);
             title.Font = new Font("Segoe UI", 24F, FontStyle.Bold, GraphicsUnit.Point);
-            title.Text = "Cần cập nhật EditorVoice";
+            title.Text = "Cập nhật EditorVoice";
             Controls.Add(title);
 
             Label message = new Label();
@@ -177,7 +177,7 @@ namespace EditorVoiceDesktop
             message.Size = new Size(580, 78);
             message.ForeColor = Color.FromArgb(92, 94, 104);
             message.Font = new Font("Segoe UI", 11F, FontStyle.Regular, GraphicsUnit.Point);
-            message.Text = "Phiên bản EditorVoice này đã hết thời hạn sử dụng.\r\nVui lòng truy cập EditorVN.com để tải và cài đặt phiên bản mới nhất.";
+            message.Text = "EditorVoice đã có phiên bản mới với những cải tiến về hiệu năng và trải nghiệm.\r\nVui lòng cập nhật để phần mềm luôn hoạt động ổn định và thuận tiện hơn.";
             Controls.Add(message);
 
             Label expiry = new Label();
@@ -186,7 +186,7 @@ namespace EditorVoiceDesktop
             expiry.Size = new Size(580, 30);
             expiry.ForeColor = Color.FromArgb(108, 112, 124);
             expiry.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
-            expiry.Text = "Phiên bản " + Program.ProductVersion + " · Mã " + Program.ReleaseCode;
+            expiry.Text = "Phiên bản hiện tại " + Program.ProductVersion + " · Mã " + Program.ReleaseCode;
             Controls.Add(expiry);
 
             Button update = new Button();
@@ -198,7 +198,7 @@ namespace EditorVoiceDesktop
             update.ForeColor = Color.FromArgb(17, 18, 23);
             update.Cursor = Cursors.Hand;
             update.Font = new Font("Segoe UI", 11F, FontStyle.Bold, GraphicsUnit.Point);
-            update.Text = "Truy cập EditorVN.com";
+            update.Text = "Cập nhật phiên bản mới";
             update.Click += delegate
             {
                 try
@@ -224,7 +224,7 @@ namespace EditorVoiceDesktop
             close.ForeColor = Color.FromArgb(48, 49, 56);
             close.Cursor = Cursors.Hand;
             close.Font = new Font("Segoe UI", 10F, FontStyle.Bold, GraphicsUnit.Point);
-            close.Text = "Đóng phần mềm";
+            close.Text = "Để sau";
             close.Click += delegate { Close(); };
             Controls.Add(close);
 
@@ -307,7 +307,7 @@ namespace EditorVoiceDesktop
                 int port = FindAvailablePort();
                 // A unique query prevents WebView2 from restoring a stale document
                 // from its persistent profile after the application is updated.
-                string url = "http://127.0.0.1:" + port + "/?build=1.2.30&release=30082600&nonce=" + Guid.NewGuid().ToString("N");
+                string url = "http://127.0.0.1:" + port + "/?build=1.2.30&release=30092600&nonce=" + Guid.NewGuid().ToString("N");
                 UpdateStatus("Đang chuẩn bị máy chủ giọng nói…");
 
                 ProcessStartInfo serverInfo = new ProcessStartInfo();

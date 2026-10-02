@@ -17,14 +17,15 @@ namespace EditorVoiceDesktop
         // EditorVN release policy: every future package must update the fixed
         // expiry, product version and visible release code together unless the
         // owner explicitly changes this policy.
-        internal static readonly DateTime ReleaseExpiresAt = new DateTime(2026, 9, 30, 0, 0, 0, DateTimeKind.Local);
+        // Valid through 31/10/2026; the expiry screen starts at 00:00 on 01/11/2026.
+        internal static readonly DateTime ReleaseExpiresAt = new DateTime(2026, 11, 1, 0, 0, 0, DateTimeKind.Local);
 #if EDITORVOICE_UNLIMITED
         internal const bool UnlimitedRelease = true;
 #else
         internal const bool UnlimitedRelease = false;
 #endif
-        internal const string ProductVersion = "1.2.30";
-        internal const string ReleaseCode = "30092600";
+        internal const string ProductVersion = "1.2.31";
+        internal const string ReleaseCode = "31102600";
         internal const string UpdateUrl = "https://EditorVN.com";
 
         [DllImport("shell32.dll", CharSet = CharSet.Unicode, PreserveSig = true)]
@@ -307,7 +308,7 @@ namespace EditorVoiceDesktop
                 int port = FindAvailablePort();
                 // A unique query prevents WebView2 from restoring a stale document
                 // from its persistent profile after the application is updated.
-                string url = "http://127.0.0.1:" + port + "/?build=1.2.30&release=30092600&nonce=" + Guid.NewGuid().ToString("N");
+                string url = "http://127.0.0.1:" + port + "/?build=1.2.31&release=31102600&nonce=" + Guid.NewGuid().ToString("N");
                 UpdateStatus("Đang chuẩn bị máy chủ giọng nói…");
 
                 ProcessStartInfo serverInfo = new ProcessStartInfo();

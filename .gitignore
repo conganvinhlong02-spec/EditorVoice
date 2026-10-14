@@ -15,14 +15,7 @@ wheels/
 outputs/
 .env
 
-# Finetune Data & Checkpoints
-finetune/dataset/
-finetune/output/
-
-# Merged Models
-merged_models_cache/
-
-# Quick Studio local data can contain reusable voice features and recordings.
+# EditorVoice local data can contain reusable voice features and recordings.
 # Keep all of it on the current computer.
 .quick-studio-data/
 

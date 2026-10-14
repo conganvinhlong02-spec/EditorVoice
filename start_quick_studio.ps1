@@ -16,8 +16,8 @@ function Find-Python {
 }
 
 Write-Host ""
-Write-Host "  VieNeu Quick Studio" -ForegroundColor Green
-Write-Host "  -------------------"
+Write-Host "  EditorVoice" -ForegroundColor Green
+Write-Host "  -----------"
 
 if (-not (Test-Path -LiteralPath $VenvPython)) {
     $BasePython = Find-Python
@@ -37,7 +37,7 @@ if (-not (Test-Path -LiteralPath $VenvPython)) {
 }
 
 if (-not (Test-Path -LiteralPath (Join-Path $ProjectRoot ".venv\.quick-studio-ready"))) {
-    Write-Host "[2/3] Cai VieNeu-TTS va cac thanh phan can thiet..."
+    Write-Host "[2/3] Cai EditorVoice va engine VieNeu-TTS..."
     & $VenvPython -m pip install --disable-pip-version-check --upgrade pip
     & $VenvPython -m pip install --disable-pip-version-check -e $ProjectRoot
     if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }

@@ -1,1 +1,1 @@
-# VieNeu-TTS Apps package
+"""EditorVoice application package."""

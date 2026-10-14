@@ -1,9 +1,24 @@
 # EditorVoice
 
+![EditorVoice — Biến câu chữ thành giọng nói](designs/editorvoice-cover-16x9.png)
+
 EditorVoice là ứng dụng đọc văn bản tiếng Việt và clone giọng chạy cục bộ trên
 Windows. Giao diện được tối ưu cho thao tác nhanh, lịch sử âm thanh và phát trực
 tiếp trong trình duyệt. Engine nền là
 [VieNeu-TTS](https://github.com/pnnbao97/VieNeu-TTS), chạy ONNX INT8 trên CPU.
+
+## Tải bản Windows
+
+**[Tải bộ cài Windows](https://github.com/conganvinhlong02-spec/EditorVoice/releases/download/v1.2.31-unlimited/EditorVoice-Gift-Unlimited-Setup.exe)** ·
+[Tải bản portable ZIP](https://github.com/conganvinhlong02-spec/EditorVoice/releases/download/v1.2.31-unlimited/EditorVoice-Gift-Unlimited.zip) ·
+[Thông tin phiên bản](https://github.com/conganvinhlong02-spec/EditorVoice/releases/tag/v1.2.31-unlimited)
+
+Bản **1.2.31 Unlimited** dành cho Windows 64-bit, không giới hạn thời gian sử
+dụng. Bộ cài có sẵn Python và các thư viện cần thiết; bạn không cần cài Python
+riêng. Lần chạy đầu cần Internet để tải model, các lần sau dùng lại bộ nhớ đệm.
+
+- **Bộ cài EXE:** tải xuống và chạy để cài ứng dụng.
+- **Portable ZIP:** giải nén toàn bộ thư mục rồi chạy `EditorVoice.exe`.
 
 ## Tính năng
 
@@ -17,7 +32,8 @@ tiếp trong trình duyệt. Engine nền là
 
 ## Chạy từ mã nguồn
 
-Yêu cầu Python 3.10 trở lên và kết nối Internet trong lần chạy đầu để tải model.
+Yêu cầu Python **3.10–3.13** (khuyến nghị **3.12**) và kết nối Internet trong lần
+chạy đầu để tải thư viện và model.
 
 Trên Windows, nhấp đúp `start_quick_studio.bat`, hoặc chạy:
 
